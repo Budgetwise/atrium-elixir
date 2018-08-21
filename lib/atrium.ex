@@ -11,16 +11,14 @@ defmodule Atrium do
     body = Poison.encode!(%{user: Enum.into(options, %{})})
 
     response = make_request("POST", "/users", body)
-    {:ok, parsed_json} = Poison.decode(to_string(response))
-    parsed_json["user"]
+    get_field(response, "user")
   end
 
   # Required Parameters: user_guid
   # Optional Parameters: None
   def read_user(user_guid) do
     response = make_request("GET", "/users/" <> user_guid, "")
-    {:ok, parsed_json} = Poison.decode(to_string(response))
-    parsed_json["user"]
+    get_field(response, "user")
   end
 
   # Required Parameters: None
@@ -29,8 +27,7 @@ defmodule Atrium do
     body = Poison.encode!(%{user: Enum.into(options, %{})})
 
     response = make_request("PUT", "/users/" <> user_guid, body)
-    {:ok, parsed_json} = Poison.decode(to_string(response))
-    parsed_json["user"]
+    get_field(response, "user")
   end
 
   # Required Parameters: None
@@ -39,8 +36,7 @@ defmodule Atrium do
     params = optional_parameters(options)
 
     response = make_request("GET", "/users" <> params, "")
-    {:ok, parsed_json} = Poison.decode(to_string(response))
-    parsed_json["users"]
+    get_field(response, "users")
   end
 
   def delete_user(user_guid) do
@@ -55,16 +51,14 @@ defmodule Atrium do
     params = optional_parameters(options)
 
     response = make_request("GET", "/institutions" <> params, "")
-    {:ok, parsed_json} = Poison.decode(to_string(response))
-    parsed_json["institutions"]
+    get_field(response, "institutions")
   end
 
   # Required Parameters: institution_code
   # Optional Parameters: None
   def read_institution(institution_code) do
     response = make_request("GET", "/institutions/" <> institution_code, "")
-    {:ok, parsed_json} = Poison.decode(to_string(response))
-    parsed_json["institution"]
+    get_field(response, "institution")
   end
 
   # Required Parameters: institution_code
@@ -75,8 +69,7 @@ defmodule Atrium do
     response =
       make_request("GET", "/institutions/" <> institution_code <> "/credentials" <> params, "")
 
-    {:ok, parsed_json} = Poison.decode(to_string(response))
-    parsed_json["credentials"]
+    get_field(response, "credentials")
   end
 
   # MEMBER
@@ -94,16 +87,14 @@ defmodule Atrium do
     body = Poison.encode!(%{member: data})
 
     response = make_request("POST", "/users/" <> user_guid <> "/members", body)
-    {:ok, parsed_json} = Poison.decode(to_string(response))
-    parsed_json["member"]
+    get_field(response, "member")
   end
 
   # Required Parameters: user_guid, member_guid
   # Optional Parameters: None
   def read_member(user_guid, member_guid) do
     response = make_request("GET", "/users/" <> user_guid <> "/members/" <> member_guid, "")
-    {:ok, parsed_json} = Poison.decode(to_string(response))
-    parsed_json["member"]
+    get_field(response, "member")
   end
 
   # Required Parameters: user_guid, member_guid
@@ -117,8 +108,7 @@ defmodule Atrium do
     body = Poison.encode!(%{member: data})
 
     response = make_request("PUT", "/users/" <> user_guid <> "/members/" <> member_guid, body)
-    {:ok, parsed_json} = Poison.decode(to_string(response))
-    parsed_json["member"]
+    get_field(response, "member")
   end
 
   # Required Parameters: user_guid, member_guid
@@ -133,8 +123,7 @@ defmodule Atrium do
     params = optional_parameters(options)
 
     response = make_request("GET", "/users/" <> user_guid <> "/members" <> params, "")
-    {:ok, parsed_json} = Poison.decode(to_string(response))
-    parsed_json["members"]
+    get_field(response, "members")
   end
 
   # Required Parameters: user_guid, member_guid
@@ -147,8 +136,7 @@ defmodule Atrium do
         ""
       )
 
-    {:ok, parsed_json} = Poison.decode(to_string(response))
-    parsed_json["member"]
+    get_field(response, "member")
   end
 
   # Required Parameters:  user_guid, member_guid
@@ -157,8 +145,7 @@ defmodule Atrium do
     response =
       make_request("GET", "/users/" <> user_guid <> "/members/" <> member_guid <> "/status", "")
 
-    {:ok, parsed_json} = Poison.decode(to_string(response))
-    parsed_json["member"]
+    get_field(response, "member")
   end
 
   # Required Parameters: user_guid, member_guid
@@ -173,8 +160,7 @@ defmodule Atrium do
         ""
       )
 
-    {:ok, parsed_json} = Poison.decode(to_string(response))
-    parsed_json["challenges"]
+    get_field(response, "challenges")
   end
 
   # Required Parameters: user_guid, member_guid, answersMFA
@@ -186,8 +172,7 @@ defmodule Atrium do
     response =
       make_request("PUT", "/users/" <> user_guid <> "/members/" <> member_guid <> "/resume", body)
 
-    {:ok, parsed_json} = Poison.decode(to_string(response))
-    parsed_json["member"]
+    get_field(response, "member")
   end
 
   # Required Parameters: user_guid, member_guid
@@ -202,8 +187,7 @@ defmodule Atrium do
         ""
       )
 
-    {:ok, parsed_json} = Poison.decode(to_string(response))
-    parsed_json["credentials"]
+    get_field(response, "credentials")
   end
 
   # Required Parameters: user_guid, member_guid
@@ -218,8 +202,7 @@ defmodule Atrium do
         ""
       )
 
-    {:ok, parsed_json} = Poison.decode(to_string(response))
-    parsed_json["accounts"]
+    get_field(response, "accounts")
   end
 
   # Required Parameters: user_guid, member_guid
@@ -234,8 +217,7 @@ defmodule Atrium do
         ""
       )
 
-    {:ok, parsed_json} = Poison.decode(to_string(response))
-    parsed_json["transactions"]
+    get_field(response, "transactions")
   end
 
   # Required Parameters: user_guid, member_guid
@@ -248,8 +230,7 @@ defmodule Atrium do
         ""
       )
 
-    {:ok, parsed_json} = Poison.decode(to_string(response))
-    parsed_json["member"]
+    get_field(response, "member")
   end
 
   # Required Parameters: user_guid, member_guid
@@ -262,8 +243,7 @@ defmodule Atrium do
         ""
       )
 
-    {:ok, parsed_json} = Poison.decode(to_string(response))
-    parsed_json["member"]
+    get_field(response, "member")
   end
 
   # ACCOUNT
@@ -272,8 +252,7 @@ defmodule Atrium do
   # Optional Parameters: None
   def read_account(user_guid, account_guid) do
     response = make_request("GET", "/users/" <> user_guid <> "/accounts/" <> account_guid, "")
-    {:ok, parsed_json} = Poison.decode(to_string(response))
-    parsed_json["account"]
+    get_field(response, "account")
   end
 
   # Required Parameters: user_guid
@@ -282,8 +261,7 @@ defmodule Atrium do
     params = optional_parameters(options)
 
     response = make_request("GET", "/users/" <> user_guid <> "/accounts" <> params, "")
-    {:ok, parsed_json} = Poison.decode(to_string(response))
-    parsed_json["accounts"]
+    get_field(response, "accounts")
   end
 
   # Required Parameters: user_guid, account_guid
@@ -298,8 +276,7 @@ defmodule Atrium do
         ""
       )
 
-    {:ok, parsed_json} = Poison.decode(to_string(response))
-    parsed_json["transactions"]
+    get_field(response, "transactions")
   end
 
   # ACCOUNT NUMBER
@@ -314,8 +291,7 @@ defmodule Atrium do
         ""
       )
 
-    {:ok, parsed_json} = Poison.decode(to_string(response))
-    parsed_json["account_numbers"]
+    get_field(response, "account_numbers")
   end
 
   # Required Parameters: user_guid, member_guid
@@ -328,8 +304,7 @@ defmodule Atrium do
         ""
       )
 
-    {:ok, parsed_json} = Poison.decode(to_string(response))
-    parsed_json["account_numbers"]
+    get_field(response, "account_numbers")
   end
 
   # ACCOUNT OWNER
@@ -344,8 +319,7 @@ defmodule Atrium do
         ""
       )
 
-    {:ok, parsed_json} = Poison.decode(to_string(response))
-    parsed_json["account_owners"]
+    get_field(response, "account_owners")
   end
 
   # TRANSACTION
@@ -356,8 +330,7 @@ defmodule Atrium do
     response =
       make_request("GET", "/users/" <> user_guid <> "/transactions/" <> transaction_guid, "")
 
-    {:ok, parsed_json} = Poison.decode(to_string(response))
-    parsed_json["transaction"]
+    get_field(response, "transaction")
   end
 
   # Required Parameters: user_guid
@@ -366,8 +339,7 @@ defmodule Atrium do
     params = optional_parameters(options)
 
     response = make_request("GET", "/users/" <> user_guid <> "/transactions" <> params, "")
-    {:ok, parsed_json} = Poison.decode(to_string(response))
-    parsed_json["transactions"]
+    get_field(response, "transactions")
   end
 
   # CONNECT WIDGET
@@ -376,11 +348,16 @@ defmodule Atrium do
   # Optional Parameters: None
   def create_widget(user_guid) do
     response = make_request("POST", "/users/" <> user_guid <> "/connect_widget_url", "")
-    {:ok, parsed_json} = Poison.decode(to_string(response))
-    parsed_json["user"]
+    get_field(response, "user")
   end
 
   # CLIENT
+
+  defp get_field({:ok, response}, field) do
+    {:ok, parsed_json} = Poison.decode(to_string(response))
+    {:ok, parsed_json[field]}
+  end
+  defp get_field(error, _), do: error
 
   # Required Parameters: mode, endpoint, body
   # Optional Parameters: None
@@ -427,27 +404,23 @@ defmodule Atrium do
   end
 
   defp http_error(status_code, body) do
-    print_error(status_code)
-
-    if div(status_code, 100) == 4 or div(status_code, 100) == 5 do
-      System.halt(0)
+    case print_error(status_code) do
+      nil -> {:ok, body}
+      error -> {:error, error}
     end
-
-    # return body
-    body
   end
 
   # Print on http error
-  defp print_error(400), do: IO.puts("400 error: Required parameter is missing.")
-  defp print_error(401), do: IO.puts("401 error: Invalid MX-API-Key, MX-Client-ID, or being used in wrong environment.")
-  defp print_error(403), do: IO.puts("403 error: Requests must be HTTPS.")
-  defp print_error(404), do: IO.puts("404 error: GUID / URL path not recognized.")
-  defp print_error(405), do: IO.puts("405 error: Endpoint constraint not met.")
-  defp print_error(406), do: IO.puts("406 error: Specifiy valid API version.")
-  defp print_error(409), do: IO.puts("409 error: Object already exists.")
-  defp print_error(422), do: IO.puts("422 error: Data provided cannot be processed.")
-  defp print_error(status_code) when status_code in [500, 502, 504], do: IO.puts("#{status_code} error: An unexpected error occurred on MX's systems.")
-  defp print_error(503), do: IO.puts("503 error: Please try again later. The MX Platform is currently being updated.")
+  defp print_error(400), do: "400 error: Required parameter is missing."
+  defp print_error(401), do: "401 error: Invalid MX-API-Key, MX-Client-ID, or being used in wrong environment."
+  defp print_error(403), do: "403 error: Requests must be HTTPS."
+  defp print_error(404), do: "404 error: GUID / URL path not recognized."
+  defp print_error(405), do: "405 error: Endpoint constraint not met."
+  defp print_error(406), do: "406 error: Specifiy valid API version."
+  defp print_error(409), do: "409 error: Object already exists."
+  defp print_error(422), do: "422 error: Data provided cannot be processed."
+  defp print_error(status_code) when status_code in [500, 502, 504], do: "#{status_code} error: An unexpected error occurred on MX's systems."
+  defp print_error(503), do: "503 error: Please try again later. The MX Platform is currently being updated."
   defp print_error(_status_code), do: nil
 
   defp optional_parameters(opts) do
